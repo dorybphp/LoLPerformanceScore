@@ -43,7 +43,7 @@ This model uses:
 Then, for each configuration:
 1. The model classifies a win/loss while simultaneously a producing continuous score that reflects, what the model thinks is, how impactful a player was to a winning outcome of a match.
 2. Historical probabilities are aggregated.
-3. The aggregated values are scaled to produce a **0–100 favorability score**.
+3. The aggregated values are scaled to produce a 0–100 favorability score.
 
 This score answers:  
 **"How historically favorable is this player–champion–team configuration?"**
@@ -118,6 +118,46 @@ results/
 ```
 
 
+## Model Architecture & Hyperparameters
+The model combines embedding layers (for categorical features) with a feed-forward MLP classifier.
+
+!(method.png)[images/method.png]
+
+1. Embedding choice:
+- 64d players (highest complexity)
+- 32d champions (mid complexity)
+- 8-16d contextual embeddings
+
+2. MLP Architecture: [256 → 128 → 64]
+Layer	Size	Reason<br>
+Dense   1	    256	High-capacity mixing of all embedding and numeric features<br>
+Dense   2	    128	Forces compression into more general latent factors<br>
+Dense   3	    64	Final abstraction layer before classification<br>
+
+Why this size? <br>
+256 gives the model enough expressive power for complex interactions (player × champion × team) <br>
+128 + 64 enforce progressive compression, improving generalization
+
+Activation Function:<br>
+ReLU – standard, stable, fast-converging for embeddings + MLPs.
+
+Dropout: 0.3 <br>
+Helps regularization but kept small because embeddings already act as regularizers.
+
+3. Training Hyperparameters
+Hyperparameter	Value	            Reason
+Optimizer	    Adam	            Works well for sparse + dense mixed inputs
+Learning Rate	1e-3	            Stable for classification with embeddings
+Batch Size	    256 	            Efficient training, smooth gradient estimates
+Epochs	        12	                Enough for convergence, also uses early stopping to avoid overfitting
+Loss Function	BCEWithLogitsLoss	Binary classification without manual sigmoid
+Scheduler	    ReduceLROnPlateau	Prevents plateauing
+
+Why BCEWithLogitsLoss?
+The model predicts “favorability” (probability of winning given configuration).
+This is a binary classification → logistic output is appropriate.
+
+
 ## Pre-trained Model
 If you want to skip training, download a pre-trained version of the model [here](https://drive.google.com/drive/folders/1f3aaZvVktkwH0SOvueDE8kwuRvFmbQ8Q?usp=sharing).
 Place the file at:
@@ -128,7 +168,7 @@ Then run inference or demo scripts normally.
 
 
 ## Demo
-Running the demo notebook is the easiest way to reproduce the results.
+Running the demo notebook is the easiest way to reproduce the results (highly suggested).
 
 ### Option 1 - Full Project Pipeline
 Download the dataset files to the same directory as the notebook and run the entire notebook.

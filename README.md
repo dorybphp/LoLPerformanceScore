@@ -9,15 +9,15 @@ The goal is *not* to estimate intrinsic skill, but to quantify **how effective a
 ---
 
 ## Repository Structure
-├── README.md \newline
-├── requirements.txt \newline
-├── src/ \newline
-│   ├── main.py      # Entry point of the program \newline
-│   ├── utils.py     # Any helper functions \newline
-│   ├── model.py     # Model definition \newline
-├── checkpoints/ \newline     
-├── demo/            # Full original .ipynb \newline
-└── results/ \newline         
+├── README.md <br>
+├── requirements.txt <br>
+├── src/ <br>
+│   ├── main.py      # Entry point of the program <br>
+│   ├── utils.py     # Any helper functions <br>
+│   ├── model.py     # Model definition <br>
+├── checkpoints/ <br>    
+├── demo/            # Full original .ipynb <br>
+└── results/ <br>         
 
 ---
 

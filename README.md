@@ -10,13 +10,21 @@ The goal is *not* to estimate intrinsic skill, but to quantify **how effective a
 
 ## Repository Structure
 ├── README.md
+
 ├── requirements.txt
+
 ├── src/
+
 │   ├── main.py      # Entry point of the program
+
 │   ├── utils.py     # Any helper functions
+
 │   ├── model.py     # Model definition
+
 ├── checkpoints/     
+
 ├── demo/            # Full original .ipynb
+
 └── results/         
 
 ---
@@ -58,7 +66,7 @@ This score answers:
 
 ## Dataset
 
-- Source: [League of Legends Esports Player Game Data (2019-2024)](https://ieee-dataport.org/documents/league-legends-esports-player-game-data-2019-2024)
+Source: [League of Legends Esports Player Game Data (2019-2024)](https://ieee-dataport.org/documents/league-legends-esports-player-game-data-2019-2024)
 - ~370,000 per-player samples originally  
 - Filtered to retain players with ≥ 50 games, yielding ~325,000 samples  
 - ~1950 unique professional players  
@@ -75,13 +83,7 @@ Dataset link: [Drive Folder](https://drive.google.com/drive/folders/139NUY4-yaVz
 
 ## Installation
 
-```bash
-git clone <your repo link>
-cd lol-favorability-model
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
+
 
 ---
 

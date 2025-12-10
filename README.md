@@ -121,22 +121,16 @@ results/
 ## Model Architecture & Hyperparameters
 The model combines embedding layers (for categorical features) with a feed-forward MLP classifier.
 
-!(method.png)[images/method.png]
+![method.png](images/method.png)
 
-1. Embedding choice:
+### 1. Embedding choice:
 - 64d players (highest complexity)
 - 32d champions (mid complexity)
 - 8-16d contextual embeddings
 
-2. MLP Architecture: [256 → 128 → 64]
-Layer	Size	Reason<br>
-Dense   1	    256	High-capacity mixing of all embedding and numeric features<br>
-Dense   2	    128	Forces compression into more general latent factors<br>
-Dense   3	    64	Final abstraction layer before classification<br>
-
+### 2. MLP Architecture: [128 → 64 → 32]
 Why this size? <br>
-256 gives the model enough expressive power for complex interactions (player × champion × team) <br>
-128 + 64 enforce progressive compression, improving generalization
+These sizes were selected after experimentation. The original larger configuration (256 → 128 → 64) exhibited rapid overfitting and triggered early stopping within only a few epochs. Reducing the network width improved generalization by lowering total parameter count and producing a better balance between embedding capacity and dense-layer expressiveness.
 
 Activation Function:<br>
 ReLU – standard, stable, fast-converging for embeddings + MLPs.
@@ -144,14 +138,24 @@ ReLU – standard, stable, fast-converging for embeddings + MLPs.
 Dropout: 0.3 <br>
 Helps regularization but kept small because embeddings already act as regularizers.
 
-3. Training Hyperparameters
-Hyperparameter	Value	            Reason
-Optimizer	    Adam	            Works well for sparse + dense mixed inputs
-Learning Rate	1e-3	            Stable for classification with embeddings
-Batch Size	    256 	            Efficient training, smooth gradient estimates
-Epochs	        12	                Enough for convergence, also uses early stopping to avoid overfitting
-Loss Function	BCEWithLogitsLoss	Binary classification without manual sigmoid
-Scheduler	    ReduceLROnPlateau	Prevents plateauing
+### 3. Training Hyperparameters
+**Optimizer: Adam**<br>	    
+Works well for sparse + dense mixed inputs
+
+**Learning Rate: 1e-4**<br>
+Keeps both the MLP and embeddings smoother with more stable training
+
+**Batch Size: 256**<br>
+Efficient training, smooth gradient estimates
+
+**Epochs: 12**<br>
+Enough for convergence, also uses early stopping if necessary to avoid overfitting 
+
+**Loss Function: BCEWithLogitsLoss**<br>
+Binary classification without manual sigmoid
+
+**Scheduler: ReduceLROnPlateau**<br>
+Prevents plateauing
 
 Why BCEWithLogitsLoss?
 The model predicts “favorability” (probability of winning given configuration).

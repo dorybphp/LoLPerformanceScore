@@ -77,7 +77,7 @@ def main():
     pos_weight_tensor = torch.tensor(pos_weight, dtype=torch.float32).to(DEVICE)
 
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
-    optimizer = optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-5)
+    optimizer = optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-5)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.5, patience=2)
 
     EPOCHS = 12

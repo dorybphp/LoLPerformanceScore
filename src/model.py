@@ -6,7 +6,7 @@ class PlayerImpactModel(nn.Module):
                  n_players, n_champs, n_roles, n_teams, n_leagues, n_tourns, n_series,
                  numagg_dim,
                  p_emb=64, c_emb=32, r_emb=8, t_emb=16, l_emb=8, tn_emb=8, s_emb=8,
-                 hidden=[256,128], z_dim=64, dropout=0.3):
+                 hidden=[128,64], z_dim=32, dropout=0.3):
         super().__init__()
         self.player_emb = nn.Embedding(n_players, p_emb)
         self.champ_emb  = nn.Embedding(n_champs, c_emb)

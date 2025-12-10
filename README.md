@@ -66,7 +66,7 @@ Dataset link: [Drive Folder](https://drive.google.com/drive/folders/139NUY4-yaVz
 
 
 ## Installation
-Follow these steps to install dependencies and run the project.
+Follow these steps to install dependencies and run the project. Or jump to the "Demo" section and run the project via the original .ipynb (suggested).
 
 ### 1. Create a virtual environment
 Linux/macOS:
